@@ -1,0 +1,13 @@
+{
+"type": "FeatureCollection",
+"name": "sample_cadastral_parcels",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "survey_no": "142/2A", "patta_no": "8842", "pattadar": "V. R. Krishna Rao", "land_use": "Agriculture (Paddy/Orchard)", "village": "Venkatapuram", "deed_acres": 1.06 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 78.1, 16.5 ], [ 78.103, 16.5 ], [ 78.103, 16.5035 ], [ 78.1004, 16.5038 ], [ 78.1, 16.502 ], [ 78.1, 16.5 ] ] ] } },
+{ "type": "Feature", "properties": { "survey_no": "142/1", "patta_no": "6410", "pattadar": "B. Ramaiah", "land_use": "Agriculture", "village": "Venkatapuram", "deed_acres": 1.25 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 78.103, 16.5 ], [ 78.1065, 16.5002 ], [ 78.1065, 16.5035 ], [ 78.103, 16.5035 ], [ 78.103, 16.5 ] ] ] } },
+{ "type": "Feature", "properties": { "survey_no": "142/2B", "patta_no": "9201", "pattadar": "K. Venkataswamy", "land_use": "Agriculture", "village": "Venkatapuram", "deed_acres": 0.98 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 78.1004, 16.5038 ], [ 78.103, 16.5035 ], [ 78.103, 16.507 ], [ 78.1008, 16.5072 ], [ 78.1004, 16.5038 ] ] ] } },
+{ "type": "Feature", "properties": { "survey_no": "143", "patta_no": "5512", "pattadar": "Smt. Lakshmi Devi", "land_use": "Commercial / Farmhouse", "village": "Venkatapuram", "deed_acres": 1.15 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 78.103, 16.5035 ], [ 78.1065, 16.5035 ], [ 78.1062, 16.507 ], [ 78.103, 16.507 ], [ 78.103, 16.5035 ] ] ] } },
+{ "type": "Feature", "properties": { "survey_no": "144", "patta_no": "7730", "pattadar": "G. Srinivas", "land_use": "Agriculture", "village": "Venkatapuram", "deed_acres": 0.85 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 78.1008, 16.5072 ], [ 78.103, 16.507 ], [ 78.103, 16.5098 ], [ 78.1005, 16.5098 ], [ 78.1008, 16.5072 ] ] ] } },
+{ "type": "Feature", "properties": { "survey_no": "141 (Road & Canal)", "patta_no": "GOVT-101", "pattadar": "Gram Panchayat / Irrigation Dept", "land_use": "Public Infrastructure", "village": "Venkatapuram", "deed_acres": 1.2 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 78.103, 16.507 ], [ 78.1062, 16.507 ], [ 78.1065, 16.5098 ], [ 78.103, 16.5098 ], [ 78.103, 16.507 ] ] ] } }
+]
+}
