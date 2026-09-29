@@ -1062,8 +1062,42 @@ st.sidebar.markdown(
 st.sidebar.divider()
 
 current_sy = st.session_state.land_paper.get("survey_no", "142/2A")
-st.sidebar.caption(f"📍 **Active Survey:** Sy. No. {current_sy}")
+
+# Scenario Switcher
+sy_options = [p["survey_no"] for p in st.session_state.parcels] if st.session_state.parcels else ["142/2A"]
+selected_sy = st.sidebar.selectbox(
+    "🎯 Select Demo Survey Parcel to Test:",
+    sy_options,
+    index=sy_options.index(current_sy) if current_sy in sy_options else 0
+)
+
+if selected_sy != current_sy:
+    # Find parcel and switch active land paper
+    target_p = next((p for p in st.session_state.parcels if p["survey_no"] == selected_sy), None)
+    if target_p:
+        poly_t = Polygon(target_p["coordinates"])
+        st.session_state.land_paper = {
+            "survey_no": target_p["survey_no"],
+            "sub_division": target_p["survey_no"].split("/")[-1] if "/" in target_p["survey_no"] else "",
+            "patta_no": target_p.get("patta_no", "8842"),
+            "owner_name": target_p.get("pattadar", "V. R. Krishna Rao"),
+            "village": target_p.get("village", "Venkatapuram"),
+            "mandal": target_p.get("mandal", "Narasaraopet"),
+            "district": target_p.get("district", "Palnadu"),
+            "state": target_p.get("state", "Andhra Pradesh"),
+            "deed_area_cents": round(target_p["area"] * 0.000247105381 * 100, 2),
+            "latitude": round(poly_t.centroid.y, 6),
+            "longitude": round(poly_t.centroid.x, 6),
+            "boundaries": target_p.get("boundaries", DEFAULT_LAND_PAPER["boundaries"]),
+            "document_filename": None
+        }
+        st.session_state.drone_boundary_coordinates = target_p["coordinates"]
+        add_audit_log(selected_sy, f"Switched active test survey parcel to {selected_sy}", "Surveyor")
+        st.rerun()
+
+st.sidebar.caption(f"📍 **Active Survey:** Sy. No. {st.session_state.land_paper.get('survey_no')}")
 st.sidebar.caption(f"🏛️ **Village:** {st.session_state.land_paper.get('village', 'Venkatapuram')}")
+st.sidebar.caption(f"👤 **Pattadar:** {st.session_state.land_paper.get('owner_name')}")
 
 st.sidebar.divider()
 
@@ -1084,14 +1118,9 @@ page = st.sidebar.radio("Navigation", pages)
 
 st.sidebar.divider()
 
-if st.sidebar.button("🔄 Reset / Load Sample Village Project", width="stretch"):
-    p, b, r = create_realistic_village_demo()
-    st.session_state.parcels = p
-    st.session_state.buildings = b
-    st.session_state.roads = r
-    st.session_state.land_paper = DEFAULT_LAND_PAPER
-    add_audit_log("ALL", "Sample village cadastral data reloaded", "System")
-    st.success("Loaded Venkatapuram Village Survey Dataset!")
+if st.sidebar.button("🔄 Reset / Reload Complete Demo Data", width="stretch"):
+    load_all_demo_data()
+    st.success("Venkatapuram Village Survey Dataset Re-loaded!")
     st.rerun()
 
 if os.path.exists("GeoVision_AI_LandSurvey.zip"):
