@@ -1,0 +1,8 @@
+{
+    "python.defaultInterpreterPath": "C:\\Users\\VISHNU\\python.exe",
+    "python.pythonPath": "C:\\Users\\VISHNU\\python.exe",
+    "python.analysis.extraPaths": [
+        "C:\\Users\\VISHNU\\Lib\\site-packages",
+        "C:\\Users\\VISHNU\\AI"
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "include": [
+        "."
+    ],
+    "pythonPath": "C:\\Users\\VISHNU\\python.exe",
+    "extraPaths": [
+        "C:\\Users\\VISHNU\\Lib\\site-packages",
+        "C:\\Users\\VISHNU\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages",
+        "c:\\Users\\VISHNU\\venv\\lib\\site-packages",
+        "."
+    ]
+}
