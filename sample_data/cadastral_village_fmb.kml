@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>Village Cadastral FMB Map - Venkatapuram</name>
+  <description>Revenue Cadastral Map for Drone Land Survey Verification</description>
+  <Style id="cadastral_style">
+    <LineStyle><color>ff00aaff</color><width>2.5</width></LineStyle>
+    <PolyStyle><color>4400aaff</color></PolyStyle>
+  </Style>
+  <Placemark>
+    <name>Sy. No. 142/2A</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> V. R. Krishna Rao<br/>
+      <b>Patta No:</b> AP-PLN-1422A<br/>
+      <b>Area:</b> 106.0 Cents (1.06 Ac)<br/>
+      <b>Classification:</b> Dry Land (Metta / Orchard)<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> 12m Panchayat Road & Sy. No. 141<br/>
+      <b>South:</b> Sy. No. 142/1 (B. Ramaiah Land)<br/>
+      <b>East:</b> Irrigation Ayacut Canal<br/>
+      <b>West:</b> Sy. No. 143 (Smt. Lakshmi Devi Plot)
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.1,16.5,0 78.103,16.5,0 78.103,16.5035,0 78.1004,16.5038,0 78.1,16.502,0 78.1,16.5,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Sy. No. 142/1</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> B. Ramaiah<br/>
+      <b>Patta No:</b> AP-PLN-1421<br/>
+      <b>Area:</b> 125.0 Cents (1.25 Ac)<br/>
+      <b>Classification:</b> Wet Land (Magani / Double Crop)<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> Sy. No. 143<br/>
+      <b>South:</b> Village Boundary & Drain<br/>
+      <b>East:</b> Irrigation Canal<br/>
+      <b>West:</b> Sy. No. 142/2A
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.103,16.5,0 78.1065,16.5002,0 78.1065,16.5035,0 78.103,16.5035,0 78.103,16.5,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Sy. No. 142/2B</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> K. Venkataswamy<br/>
+      <b>Patta No:</b> AP-PLN-1422B<br/>
+      <b>Area:</b> 98.0 Cents (0.98 Ac)<br/>
+      <b>Classification:</b> Dry Land (Metta)<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> Sy. No. 144<br/>
+      <b>South:</b> Sy. No. 142/2A<br/>
+      <b>East:</b> Sy. No. 143<br/>
+      <b>West:</b> Sy. No. 140 (Cart Track)
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.1004,16.5038,0 78.103,16.5035,0 78.103,16.507,0 78.1008,16.5072,0 78.1004,16.5038,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Sy. No. 143</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> Smt. Lakshmi Devi<br/>
+      <b>Patta No:</b> AP-PLN-143<br/>
+      <b>Area:</b> 115.0 Cents (1.15 Ac)<br/>
+      <b>Classification:</b> Converted Non-Agriculture<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> Sy. No. 141 (Panchayat Road)<br/>
+      <b>South:</b> Sy. No. 142/1<br/>
+      <b>East:</b> Irrigation Canal<br/>
+      <b>West:</b> Sy. No. 142/2B
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.103,16.5035,0 78.1065,16.5035,0 78.1062,16.507,0 78.103,16.507,0 78.103,16.5035,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Sy. No. 144</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> G. Srinivas<br/>
+      <b>Patta No:</b> AP-PLN-144<br/>
+      <b>Area:</b> 85.0 Cents (0.85 Ac)<br/>
+      <b>Classification:</b> Dry Land (Metta)<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> Sy. No. 145<br/>
+      <b>South:</b> Sy. No. 142/2B<br/>
+      <b>East:</b> Sy. No. 141<br/>
+      <b>West:</b> Sy. No. 139
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.1008,16.5072,0 78.103,16.507,0 78.103,16.5098,0 78.1005,16.5098,0 78.1008,16.5072,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Sy. No. 141</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> Gram Panchayat & Irrigation Dept<br/>
+      <b>Patta No:</b> AP-GOVT-PORAMBOKE<br/>
+      <b>Area:</b> 120.0 Cents (1.2 Ac)<br/>
+      <b>Classification:</b> Government Public Utility<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> Sy. No. 146<br/>
+      <b>South:</b> Sy. No. 143 & 142<br/>
+      <b>East:</b> Ayacut Canal Bund<br/>
+      <b>West:</b> Sy. No. 144
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.103,16.507,0 78.1062,16.507,0 78.1065,16.5098,0 78.103,16.5098,0 78.103,16.507,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Sy. No. 145</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> Ch. Venkata Reddy<br/>
+      <b>Patta No:</b> AP-PLN-145<br/>
+      <b>Area:</b> 92.0 Cents (0.92 Ac)<br/>
+      <b>Classification:</b> Dry Land (Metta)<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> Hillock / Forest Border<br/>
+      <b>South:</b> Sy. No. 144<br/>
+      <b>East:</b> Sy. No. 146<br/>
+      <b>West:</b> Sy. No. 138
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.1005,16.5098,0 78.103,16.5098,0 78.103,16.5125,0 78.1002,16.5125,0 78.1005,16.5098,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+  <Placemark>
+    <name>Sy. No. 146</name>
+    <description><![CDATA[
+      <b>Pattadar:</b> M. Satyanarayana<br/>
+      <b>Patta No:</b> AP-PLN-146<br/>
+      <b>Area:</b> 110.0 Cents (1.1 Ac)<br/>
+      <b>Classification:</b> Wet Land (Magani)<br/>
+      <b>Village:</b> Venkatapuram, Narasaraopet<br/>
+      <b>North:</b> Village Boundary<br/>
+      <b>South:</b> Sy. No. 141<br/>
+      <b>East:</b> Major Irrigation Distributary<br/>
+      <b>West:</b> Sy. No. 145
+    ]]></description>
+    <styleUrl>#cadastral_style</styleUrl>
+    <Polygon>
+      <outerBoundaryIs><LinearRing><coordinates>
+        78.103,16.5098,0 78.1065,16.5098,0 78.1065,16.5125,0 78.103,16.5125,0 78.103,16.5098,0
+      </coordinates></LinearRing></outerBoundaryIs>
+    </Polygon>
+  </Placemark>
+</Document>
+</kml>
