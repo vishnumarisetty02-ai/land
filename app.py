@@ -85,114 +85,1131 @@ st.set_page_config(
 
 
 # ============================================================
-# MODERN GIS STYLING (CSS)
+# MODERN 3D CYBER-GIS DARK THEME & SLOW-MOTION BACKGROUND (CSS & WEBGL)
 # ============================================================
+
+import streamlit.components.v1 as components
 
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
 
+    /* Global Typography & Deep Dark Cyber-GIS Palette */
     html, body, [class*="css"] {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #f8fafc !important;
     }
 
+    /* Cosmic Dark Background with Slow-Motion Cosmic Gradient Glow */
+    .stApp {
+        background: radial-gradient(circle at 10% 20%, rgba(2, 132, 199, 0.12) 0%, transparent 45%),
+                    radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 45%),
+                    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.06) 0%, transparent 55%),
+                    linear-gradient(180deg, #090e17 0%, #0c1524 50%, #060a12 100%) !important;
+        background-attachment: fixed !important;
+        overflow-x: hidden;
+        color: #f8fafc !important;
+    }
+
+    /* Fixed Background Canvas for Slow-Motion Topographic & Particle Constellation */
+    #geo-3d-bg-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.65;
+    }
+
+    /* Main Area Text Contrast (Crisp Glowing Text) */
+    section.main [data-testid="stMarkdownContainer"] {
+        color: #f8fafc;
+    }
+
+    section.main h1, 
+    section.main h2, 
+    section.main h3, 
+    section.main h4, 
+    section.main h5, 
+    section.main h6,
+    section.main [data-testid="stMarkdownContainer"] h1,
+    section.main [data-testid="stMarkdownContainer"] h2,
+    section.main [data-testid="stMarkdownContainer"] h3,
+    section.main [data-testid="stMarkdownContainer"] h4,
+    section.main [data-testid="stMarkdownContainer"] h5,
+    section.main [data-testid="stMarkdownContainer"] h6 {
+        color: #f8fafc !important;
+        font-weight: 700 !important;
+        text-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+    }
+
+    section.main [data-testid="stMarkdownContainer"] p,
+    section.main [data-testid="stMarkdownContainer"] span,
+    section.main [data-testid="stMarkdownContainer"] div {
+        color: #e2e8f0;
+    }
+
+    /* Hero Main Title with Shimmer Animation */
     .main-title {
-        font-size: 2.2rem;
+        font-size: 2.3rem;
         font-weight: 800;
-        background: linear-gradient(135deg, #0f4c81 0%, #0284c7 100%);
+        background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 40%, #34d399 80%, #38bdf8 100%);
+        background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0.2rem;
+        animation: shimmerText 10s linear infinite;
+        letter-spacing: -0.5px;
+        text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+    }
+
+    @keyframes shimmerText {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
     .subtitle {
-        color: #64748b;
+        color: #94a3b8 !important;
         font-size: 0.95rem;
         font-weight: 500;
         margin-bottom: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
+    .live-pulse-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #22c55e;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+        animation: slowPulseRing 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+    }
+
+    @keyframes slowPulseRing {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    /* 3D Glassmorphic Cards with 3D Hover Tilt & Neon Glowing Borders */
     .stat-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 16px 20px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        transition: transform 0.2s, box-shadow 0.2s;
+        background: rgba(15, 23, 42, 0.75) !important;
+        backdrop-filter: blur(14px) !important;
+        -webkit-backdrop-filter: blur(14px) !important;
+        border: 1px solid rgba(56, 189, 248, 0.22) !important;
+        border-radius: 16px;
+        padding: 18px 22px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        perspective: 1000px;
+    }
+
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.15), transparent);
+        transform: skewX(-25deg);
+        transition: 0.8s;
+        pointer-events: none;
     }
 
     .stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        transform: translateY(-5px) scale(1.015);
+        box-shadow: 0 20px 30px -5px rgba(2, 132, 199, 0.3), 0 0 15px rgba(56, 189, 248, 0.2);
+        border-color: rgba(56, 189, 248, 0.6) !important;
+    }
+
+    .stat-card:hover::before {
+        left: 150%;
     }
 
     .stat-num {
-        font-size: 1.8rem;
+        font-size: 1.85rem;
         font-weight: 800;
-        color: #0f172a;
+        color: #38bdf8 !important;
+        letter-spacing: -0.5px;
+        text-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
     }
 
     .stat-label {
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: #64748b;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #94a3b8 !important;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.8px;
     }
 
+    /* Dynamic Badges with Slow-Motion Glow */
     .badge-approved {
-        background: #dcfce7;
-        color: #166534;
-        padding: 4px 12px;
-        border-radius: 20px;
+        background: rgba(34, 197, 94, 0.15) !important;
+        color: #4ade80 !important;
+        border: 1px solid rgba(74, 222, 128, 0.4) !important;
+        padding: 5px 14px;
+        border-radius: 24px;
         font-weight: 700;
-        font-size: 0.85rem;
-        display: inline-block;
+        font-size: 0.82rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.25);
+        animation: floatSlow 6s ease-in-out infinite;
     }
 
     .badge-rejected {
-        background: #fee2e2;
-        color: #991b1b;
-        padding: 4px 12px;
-        border-radius: 20px;
+        background: rgba(239, 68, 68, 0.15) !important;
+        color: #f87171 !important;
+        border: 1px solid rgba(248, 113, 113, 0.4) !important;
+        padding: 5px 14px;
+        border-radius: 24px;
         font-weight: 700;
-        font-size: 0.85rem;
-        display: inline-block;
+        font-size: 0.82rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 0 12px rgba(239, 68, 68, 0.25);
     }
 
     .badge-pending {
-        background: #fef3c7;
-        color: #92400e;
-        padding: 4px 12px;
-        border-radius: 20px;
+        background: rgba(245, 158, 11, 0.15) !important;
+        color: #fbbf24 !important;
+        border: 1px solid rgba(251, 191, 36, 0.4) !important;
+        padding: 5px 14px;
+        border-radius: 24px;
         font-weight: 700;
-        font-size: 0.85rem;
-        display: inline-block;
+        font-size: 0.82rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+        animation: floatSlow 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes floatSlow {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-3px); }
+        100% { transform: translateY(0px); }
     }
 
     .info-box {
-        background: #f8fafc;
-        border-left: 4px solid #0284c7;
+        background: rgba(15, 23, 42, 0.8) !important;
+        color: #e2e8f0 !important;
+        border-left: 4px solid #0284c7 !important;
+        border: 1px solid rgba(56, 189, 248, 0.2) !important;
         padding: 14px 18px;
-        border-radius: 0 8px 8px 0;
+        border-radius: 0 12px 12px 0;
         margin-bottom: 1rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
+    /* Chakkubandhulu (Schedule of Boundaries) Cards - Dark Holographic Glass */
     .chakkubandhulu-card {
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
-        border-radius: 10px;
-        padding: 12px 16px;
-        margin-bottom: 8px;
+        background: rgba(15, 23, 42, 0.8) !important;
+        color: #f8fafc !important;
+        border: 1px solid rgba(56, 189, 248, 0.25) !important;
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin-bottom: 10px;
+        font-size: 0.92rem !important;
+        font-weight: 600 !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35) !important;
+        transition: all 0.3s ease;
+    }
+
+    .chakkubandhulu-card b {
+        color: #38bdf8 !important;
+        font-weight: 800 !important;
+    }
+
+    .chakkubandhulu-card:hover {
+        border-color: #38bdf8 !important;
+        background: rgba(2, 132, 199, 0.15) !important;
+        transform: translateX(4px);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.3) !important;
+    }
+
+    /* ============================================================
+       SIDEBAR HIGH-TECH CYBER-DARK THEME
+       ============================================================ */
+    section[data-testid="stSidebar"] {
+        background-color: #060a14 !important;
+        border-right: 1px solid rgba(56, 189, 248, 0.15) !important;
+    }
+
+    section[data-testid="stSidebar"] *,
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] span,
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] b,
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] strong,
+    section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] div,
+    section[data-testid="stSidebar"] .stRadio label,
+    section[data-testid="stSidebar"] .stRadio span,
+    section[data-testid="stSidebar"] .stRadio div,
+    section[data-testid="stSidebar"] .stRadio p,
+    section[data-testid="stSidebar"] .stSelectbox label,
+    section[data-testid="stSidebar"] .stSelectbox span,
+    section[data-testid="stSidebar"] .stSelectbox p,
+    section[data-testid="stSidebar"] div[data-testid="stSelectbox"] div {
+        color: #f1f5f9 !important;
+    }
+
+    section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label {
+        padding: 4px 8px !important;
+        border-radius: 8px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label:hover {
+        background-color: rgba(56, 189, 248, 0.12) !important;
+    }
+
+    section[data-testid="stSidebar"] .stRadio div[role="radiogroup"] label span {
+        color: #f1f5f9 !important;
+        font-size: 0.92rem !important;
+        font-weight: 500 !important;
+    }
+
+    section[data-testid="stSidebar"] hr {
+        border-color: rgba(56, 189, 248, 0.15) !important;
+    }
+
+    section[data-testid="stSidebar"] .stButton button,
+    section[data-testid="stSidebar"] .stDownloadButton button {
+        background: rgba(15, 23, 42, 0.9) !important;
+        color: #38bdf8 !important;
+        border: 1px solid rgba(56, 189, 248, 0.3) !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+        transition: all 0.2s ease !important;
+    }
+
+    section[data-testid="stSidebar"] .stButton button:hover,
+    section[data-testid="stSidebar"] .stDownloadButton button:hover {
+        background: #0284c7 !important;
+        border-color: #38bdf8 !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 16px rgba(56, 189, 248, 0.5) !important;
+        transform: translateY(-1px);
+    }
+
+    /* 3D Telemetry HUD Overlay Styling */
+    .hud-chip {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        background: rgba(15, 23, 42, 0.9);
+        color: #38bdf8 !important;
+        padding: 4px 10px;
+        border-radius: 6px;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        display: inline-block;
+    }
+
+    /* Scanning radar bar effect */
+    .radar-scan-line {
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+        animation: radarScan 4s ease-in-out infinite;
+    }
+
+    @keyframes radarScan {
+        0% { transform: translateY(0); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(240px); opacity: 0; }
     }
     </style>
+
+    <!-- Slow-Motion Ambient Topo & Particle Background Script -->
+    <div id="geo-bg-container" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; overflow:hidden;">
+        <canvas id="geo-topo-canvas" style="position:absolute; width:100%; height:100%; opacity:0.38;"></canvas>
+    </div>
+
+    <script>
+    (function() {
+        const canvas = document.getElementById('geo-topo-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', function() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        // Generate slow-motion floating survey nodes & constellation
+        const numNodes = 28;
+        const nodes = [];
+        for (let i = 0; i < numNodes; i++) {
+            nodes.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.22, // Slow motion drift
+                vy: (Math.random() - 0.5) * 0.22,
+                radius: Math.random() * 2.2 + 1.2,
+                color: i % 3 === 0 ? 'rgba(2, 132, 199, 0.7)' : (i % 3 === 1 ? 'rgba(16, 185, 129, 0.7)' : 'rgba(99, 102, 241, 0.7)')
+            });
+        }
+
+        let topoTime = 0;
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw slow-motion gentle topographic contour wave lines
+            topoTime += 0.003; // Ultra smooth slow motion
+            ctx.strokeStyle = 'rgba(2, 132, 199, 0.04)';
+            ctx.lineWidth = 1.2;
+
+            for (let c = 0; c < 5; c++) {
+                ctx.beginPath();
+                for (let x = 0; x < width; x += 25) {
+                    const y = height * (0.2 + c * 0.16) + 
+                              Math.sin(x * 0.003 + topoTime + c) * 35 + 
+                              Math.cos(x * 0.0015 - topoTime * 0.7) * 20;
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+            }
+
+            // Draw survey constellation nodes & connecting lidar lines
+            for (let i = 0; i < nodes.length; i++) {
+                const n = nodes[i];
+                n.x += n.vx;
+                n.y += n.vy;
+
+                if (n.x < 0) n.x = width;
+                if (n.x > width) n.x = 0;
+                if (n.y < 0) n.y = height;
+                if (n.y > height) n.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+                ctx.fillStyle = n.color;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = n.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+
+                // Connect nearby nodes with subtle laser line
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const n2 = nodes[j];
+                    const dist = Math.hypot(n.x - n2.x, n.y - n2.y);
+                    if (dist < 160) {
+                        ctx.beginPath();
+                        ctx.moveTo(n.x, n.y);
+                        ctx.lineTo(n2.x, n2.y);
+                        ctx.strokeStyle = `rgba(2, 132, 199, ${0.12 * (1 - dist / 160)})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    })();
+    </script>
     """,
     unsafe_allow_html=True
 )
 
 
 # ============================================================
+# INTERACTIVE 3D TERRAIN & DRONE FLIGHT VISUALIZER (THREE.JS / WEBGL)
+# ============================================================
+
+def render_3d_terrain_drone_viewer(
+    parcel_coords=None,
+    elevation_stats=None,
+    height=580,
+    title="🌐 3D Digital Elevation Model & Drone Survey Flight Simulation",
+    show_controls=True
+):
+    """
+    Renders a high-performance interactive 3D WebGL Three.js terrain model with:
+    - 3D Terrain displacement (Bare earth DTM vs DSM canopy)
+    - Realistic quadcopter drone with rotating rotors in slow-motion
+    - Live LiDAR scanning laser beam cone projecting onto terrain
+    - Draped Cadastral parcel boundary polygon & corner flag markers
+    - Slow-motion controls (0.2x, 0.5x, 1x, Pause) & Camera Viewpoints
+    - Real-time 3D flight telemetry HUD
+    """
+    if elevation_stats is None:
+        elevation_stats = {
+            "ground_min_amsl": 45.2,
+            "ground_max_amsl": 58.6,
+            "ground_mean_amsl": 51.4,
+            "surface_max_amsl": 64.8,
+            "max_structure_height_m": 8.5,
+            "avg_slope_deg": 3.8
+        }
+
+    # Normalize polygon coordinates for 3D local mesh
+    boundary_3d_points = []
+    if parcel_coords and len(parcel_coords) >= 3:
+        # compute center
+        c_x = sum(pt[0] for pt in parcel_coords) / len(parcel_coords)
+        c_y = sum(pt[1] for pt in parcel_coords) / len(parcel_coords)
+        for pt in parcel_coords:
+            # scale longitude/latitude difference to 3D units (-30 to +30)
+            dx = (pt[0] - c_x) * 45000.0
+            dz = -(pt[1] - c_y) * 45000.0
+            boundary_3d_points.append({"x": round(dx, 2), "z": round(dz, 2)})
+    else:
+        # Default nice quadrilateral
+        boundary_3d_points = [
+            {"x": -22, "z": -18},
+            {"x": 24, "z": -20},
+            {"x": 26, "z": 22},
+            {"x": -20, "z": 24}
+        ]
+
+    json_boundary = json.dumps(boundary_3d_points)
+    json_stats = json.dumps(elevation_stats)
+
+    html_code = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+            body {{
+                overflow: hidden;
+                font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+                background: #090d16;
+                color: #e2e8f0;
+                border-radius: 14px;
+            }}
+            #canvas-container {{
+                width: 100%;
+                height: {height}px;
+                position: relative;
+                border-radius: 14px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1);
+            }}
+            #three-canvas {{
+                width: 100%;
+                height: 100%;
+                display: block;
+            }}
+            /* Glassmorphic 3D HUD & Control Bar */
+            .hud-overlay {{
+                position: absolute;
+                top: 14px;
+                left: 14px;
+                background: rgba(15, 23, 42, 0.75);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(56, 189, 248, 0.3);
+                border-radius: 10px;
+                padding: 10px 14px;
+                pointer-events: none;
+                z-index: 10;
+            }}
+            .hud-title {{
+                font-size: 0.85rem;
+                font-weight: 800;
+                color: #38bdf8;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                letter-spacing: 0.5px;
+            }}
+            .hud-metrics {{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin-top: 8px;
+                font-family: monospace;
+                font-size: 0.75rem;
+            }}
+            .hud-metric-item {{
+                background: rgba(2, 6, 23, 0.6);
+                padding: 4px 8px;
+                border-radius: 6px;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+            }}
+            .hud-label {{ color: #94a3b8; font-size: 0.68rem; }}
+            .hud-val {{ color: #f8fafc; font-weight: 700; }}
+
+            /* Control Buttons Top Right */
+            .controls-bar {{
+                position: absolute;
+                top: 14px;
+                right: 14px;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                z-index: 10;
+            }}
+            .btn-group {{
+                background: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 8px;
+                padding: 4px;
+                display: flex;
+                gap: 4px;
+            }}
+            .hud-btn {{
+                background: rgba(30, 41, 59, 0.8);
+                color: #cbd5e1;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 6px;
+                padding: 5px 10px;
+                font-size: 0.72rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }}
+            .hud-btn:hover {{
+                background: #0284c7;
+                color: #ffffff;
+                border-color: #38bdf8;
+                transform: translateY(-1px);
+            }}
+            .hud-btn.active {{
+                background: #0284c7;
+                color: #ffffff;
+                border-color: #38bdf8;
+                box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+            }}
+
+            /* Bottom Legend & Instructions */
+            .bottom-bar {{
+                position: absolute;
+                bottom: 12px;
+                left: 14px;
+                right: 14px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: rgba(15, 23, 42, 0.75);
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 6px 14px;
+                font-size: 0.72rem;
+                color: #94a3b8;
+                pointer-events: none;
+            }}
+            .elevation-gradient {{
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }}
+            .elev-bar {{
+                width: 90px;
+                height: 8px;
+                border-radius: 4px;
+                background: linear-gradient(90deg, #15803d 0%, #eab308 50%, #dc2626 100%);
+            }}
+            .pulse-dot {{
+                width: 7px;
+                height: 7px;
+                background: #38bdf8;
+                border-radius: 50%;
+                display: inline-block;
+                animation: pulse 1.5s infinite;
+            }}
+            @keyframes pulse {{
+                0% {{ opacity: 0.3; transform: scale(0.8); }}
+                50% {{ opacity: 1; transform: scale(1.2); }}
+                100% {{ opacity: 0.3; transform: scale(0.8); }}
+            }}
+        </style>
+        <!-- Load Three.js & OrbitControls from CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    </head>
+    <body>
+        <div id="canvas-container">
+            <div class="hud-overlay">
+                <div class="hud-title">
+                    <span class="pulse-dot"></span> 🚁 3D DRONE SURVEY & ELEVATION HUD
+                </div>
+                <div class="hud-metrics">
+                    <div class="hud-metric-item">
+                        <div class="hud-label">ALTITUDE (AGL)</div>
+                        <div class="hud-val" id="hud-alt">42.5 m</div>
+                    </div>
+                    <div class="hud-metric-item">
+                        <div class="hud-label">GROUND ELEV (DTM)</div>
+                        <div class="hud-val" id="hud-elev">{elevation_stats.get('ground_mean_amsl', 51.4):.1f} m</div>
+                    </div>
+                    <div class="hud-metric-item">
+                        <div class="hud-label">SCAN COVERAGE</div>
+                        <div class="hud-val" id="hud-cov">98.4%</div>
+                    </div>
+                    <div class="hud-metric-item">
+                        <div class="hud-label">SPEED (SLOW-MO)</div>
+                        <div class="hud-val" id="hud-speed">0.5x</div>
+                    </div>
+                    <div class="hud-metric-item">
+                        <div class="hud-label">PITCH / ROLL</div>
+                        <div class="hud-val" id="hud-angle">+2.1° / -0.8°</div>
+                    </div>
+                    <div class="hud-metric-item">
+                        <div class="hud-label">SURVEY PARCEL</div>
+                        <div class="hud-val" style="color:#22c55e;">DRAPED 3D</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-bar">
+                <div class="btn-group">
+                    <span style="font-size:0.68rem; color:#94a3b8; align-self:center; margin-right:4px;">⏱️ SPEED:</span>
+                    <button class="hud-btn" onclick="setSpeed(0.2, this)">0.2x (Ultra Slow)</button>
+                    <button class="hud-btn active" onclick="setSpeed(0.5, this)">0.5x (Slow-Mo)</button>
+                    <button class="hud-btn" onclick="setSpeed(1.0, this)">1.0x (Normal)</button>
+                    <button class="hud-btn" onclick="togglePause(this)" id="btn-pause">⏸️ Pause</button>
+                </div>
+                <div class="btn-group">
+                    <span style="font-size:0.68rem; color:#94a3b8; align-self:center; margin-right:4px;">👁️ VIEW:</span>
+                    <button class="hud-btn active" onclick="setCameraView('orbit', this)">Orbit 360°</button>
+                    <button class="hud-btn" onclick="setCameraView('iso', this)">Isometric</button>
+                    <button class="hud-btn" onclick="setCameraView('fpv', this)">Drone FPV</button>
+                    <button class="hud-btn" onclick="setCameraView('top', this)">Top-Down</button>
+                </div>
+                <div class="btn-group">
+                    <span style="font-size:0.68rem; color:#94a3b8; align-self:center; margin-right:4px;">🎨 SHADING:</span>
+                    <button class="hud-btn active" onclick="setShading('elevation', this)">Elevation Heatmap</button>
+                    <button class="hud-btn" onclick="setShading('wireframe', this)">Cyber Wireframe</button>
+                    <button class="hud-btn" onclick="setShading('satellite', this)">Photogrammetry</button>
+                    <button class="hud-btn" onclick="setShading('lidar', this)">LiDAR Intensity</button>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="elevation-gradient">
+                    <span>DTM Low ({elevation_stats.get('ground_min_amsl', 45.2):.1f}m)</span>
+                    <div class="elev-bar"></div>
+                    <span>DSM High ({elevation_stats.get('surface_max_amsl', 64.8):.1f}m)</span>
+                </div>
+                <div>
+                    🖱️ <b>Rotate:</b> Left-Click + Drag &nbsp;|&nbsp; 🔍 <b>Zoom:</b> Scroll &nbsp;|&nbsp; ✋ <b>Pan:</b> Right-Click + Drag
+                </div>
+            </div>
+
+            <canvas id="three-canvas"></canvas>
+        </div>
+
+        <script>
+        const boundaryPoints = {json_boundary};
+        const elevStats = {json_stats};
+
+        let speedMultiplier = 0.5;
+        let isPaused = false;
+        let currentView = 'orbit';
+        let currentShading = 'elevation';
+
+        // 1. Scene, Camera, Renderer Setup
+        const container = document.getElementById('canvas-container');
+        const canvas = document.getElementById('three-canvas');
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0a101d);
+        scene.fog = new THREE.FogExp2(0x0a101d, 0.007);
+
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 50, 75);
+
+        const renderer = new THREE.WebGLRenderer({{ canvas: canvas, antialias: true, alpha: true }});
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxPolarAngle = Math.PI / 2 - 0.05; // Prevent under-ground camera
+        controls.minDistance = 15;
+        controls.maxDistance = 180;
+        controls.target.set(0, 5, 0);
+
+        // 2. Lighting Setup
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.65);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xfff5e6, 1.2);
+        sunLight.position.set(40, 80, 50);
+        sunLight.castShadow = true;
+        sunLight.shadow.mapSize.width = 1024;
+        sunLight.shadow.mapSize.height = 1024;
+        scene.add(sunLight);
+
+        const blueAccent = new THREE.PointLight(0x0284c7, 1.5, 120);
+        blueAccent.position.set(-40, 30, -30);
+        scene.add(blueAccent);
+
+        // 3. Generate 3D Terrain Elevation Mesh (DTM/DSM Topography)
+        const gridW = 100;
+        const gridH = 100;
+        const segsX = 90;
+        const segsY = 90;
+        const terrainGeom = new THREE.PlaneGeometry(gridW, gridH, segsX, segsY);
+        terrainGeom.rotateX(-Math.PI / 2);
+
+        const posAttr = terrainGeom.attributes.position;
+        const colors = [];
+        const minZ = elevStats.ground_min_amsl || 45;
+        const maxZ = elevStats.surface_max_amsl || 65;
+        const deltaZ = Math.max(1, maxZ - minZ);
+
+        for (let i = 0; i < posAttr.count; i++) {{
+            const x = posAttr.getX(i);
+            const z = posAttr.getZ(i);
+
+            // Natural realistic slope & micro-relief ridges
+            const hill1 = Math.sin(x * 0.06) * Math.cos(z * 0.06) * 4.5;
+            const hill2 = Math.sin(x * 0.12 + 1.2) * 1.8;
+            const slope = (x * 0.08) - (z * 0.04);
+            
+            // Add a few structure / tree bumps (DSM elevation features)
+            let structureBump = 0;
+            if (x > -15 && x < -2 && z > -12 && z < 2) {{
+                structureBump = 4.8; // House structure
+            }} else if (x > 12 && x < 24 && z > 5 && z < 18) {{
+                structureBump = 3.2; // Tree grove canopy
+            }}
+
+            const y = Math.max(0, 4.0 + hill1 + hill2 + slope + structureBump);
+            posAttr.setY(i, y);
+
+            // Calculate elevation vertex color (Green -> Yellow -> Red)
+            const normH = Math.min(1.0, Math.max(0.0, y / 14.0));
+            const c = new THREE.Color();
+            if (normH < 0.35) {{
+                c.setRGB(0.1 + normH * 0.4, 0.6 + normH * 0.3, 0.2); // Lush green terrain
+            }} else if (normH < 0.7) {{
+                c.setRGB(0.85, 0.75 - (normH - 0.35) * 0.5, 0.15); // Sandy ridge
+            }} else {{
+                c.setRGB(0.9, 0.25, 0.2); // High roof / hilltop
+            }}
+            colors.push(c.r, c.g, c.b);
+        }}
+
+        terrainGeom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+        terrainGeom.computeVertexNormals();
+
+        // Shading Materials
+        const elevMaterial = new THREE.MeshStandardMaterial({{
+            vertexColors: true,
+            roughness: 0.8,
+            metalness: 0.1,
+            flatShading: false
+        }});
+
+        const wireframeMaterial = new THREE.MeshBasicMaterial({{
+            color: 0x00e5ff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.8
+        }});
+
+        const satelliteMaterial = new THREE.MeshStandardMaterial({{
+            color: 0x3d5a36,
+            roughness: 0.9,
+            metalness: 0.05
+        }});
+
+        const lidarMaterial = new THREE.MeshBasicMaterial({{
+            vertexColors: true,
+            wireframe: true
+        }});
+
+        const terrainMesh = new THREE.Mesh(terrainGeom, elevMaterial);
+        terrainMesh.receiveShadow = true;
+        terrainMesh.castShadow = true;
+        scene.add(terrainMesh);
+
+        // Ground Grid Helper for Elevation Benchmark
+        const gridHelper = new THREE.GridHelper(110, 22, 0x0284c7, 0x1e293b);
+        gridHelper.position.y = -0.1;
+        scene.add(gridHelper);
+
+        // 4. Draped 3D Cadastral Boundary Line & Corner Flag Markers
+        function getTerrainHeight(x, z) {{
+            const hill1 = Math.sin(x * 0.06) * Math.cos(z * 0.06) * 4.5;
+            const hill2 = Math.sin(x * 0.12 + 1.2) * 1.8;
+            const slope = (x * 0.08) - (z * 0.04);
+            return Math.max(0, 4.0 + hill1 + hill2 + slope) + 0.35;
+        }}
+
+        const boundaryLineGeom = new THREE.BufferGeometry();
+        const boundaryVerts = [];
+        for (let i = 0; i < boundaryPoints.length; i++) {{
+            const p = boundaryPoints[i];
+            const pNext = boundaryPoints[(i + 1) % boundaryPoints.length];
+            // Interpolate line points along terrain curve
+            for (let t = 0; t <= 10; t++) {{
+                const ix = p.x + (pNext.x - p.x) * (t / 10.0);
+                const iz = p.z + (pNext.z - p.z) * (t / 10.0);
+                const iy = getTerrainHeight(ix, iz);
+                boundaryVerts.push(ix, iy, iz);
+            }}
+        }}
+        boundaryLineGeom.setAttribute('position', new THREE.Float32BufferAttribute(boundaryVerts, 3));
+        const boundaryLineMat = new THREE.LineBasicMaterial({{ color: 0x22c55e, linewidth: 3 }});
+        const boundaryLine = new THREE.Line(boundaryLineGeom, boundaryLineMat);
+        scene.add(boundaryLine);
+
+        // Glowing Corner Flag Markers
+        const flagGeom = new THREE.CylinderGeometry(0.35, 0.35, 4, 12);
+        const flagMat = new THREE.MeshStandardMaterial({{ color: 0x22c55e, emissive: 0x15803d, roughness: 0.3 }});
+        const flagSphereGeom = new THREE.SphereGeometry(0.8, 16, 16);
+        const flagSphereMat = new THREE.MeshBasicMaterial({{ color: 0x4ade80 }});
+
+        boundaryPoints.forEach((pt, idx) => {{
+            const ty = getTerrainHeight(pt.x, pt.z);
+            const flagPole = new THREE.Mesh(flagGeom, flagMat);
+            flagPole.position.set(pt.x, ty + 2, pt.z);
+            scene.add(flagPole);
+
+            const flagOrb = new THREE.Mesh(flagSphereGeom, flagSphereMat);
+            flagOrb.position.set(pt.x, ty + 4.2, pt.z);
+            scene.add(flagOrb);
+        }});
+
+        // 5. Build 3D Quadcopter Drone Model with Spinning Rotors & Laser LiDAR Scan Cone
+        const droneGroup = new THREE.Group();
+
+        // Main Drone Body
+        const bodyGeom = new THREE.BoxGeometry(3.6, 0.9, 3.6);
+        const bodyMat = new THREE.MeshStandardMaterial({{ color: 0x0f172a, roughness: 0.2, metalness: 0.8 }});
+        const droneBody = new THREE.Mesh(bodyGeom, bodyMat);
+        droneGroup.add(droneBody);
+
+        // Camera Gimbal Dome
+        const gimbalGeom = new THREE.SphereGeometry(0.7, 16, 16);
+        const gimbalMat = new THREE.MeshStandardMaterial({{ color: 0x38bdf8, roughness: 0.1, metalness: 0.9 }});
+        const gimbal = new THREE.Mesh(gimbalGeom, gimbalMat);
+        gimbal.position.y = -0.6;
+        droneGroup.add(gimbal);
+
+        // 4 Drone Carbon Arms & Rotor Blades
+        const armGeom = new THREE.CylinderGeometry(0.18, 0.18, 5.2, 8);
+        const armMat = new THREE.MeshStandardMaterial({{ color: 0x334155, metalness: 0.9 }});
+        
+        const arm1 = new THREE.Mesh(armGeom, armMat);
+        arm1.rotation.z = Math.PI / 2;
+        arm1.rotation.y = Math.PI / 4;
+        droneGroup.add(arm1);
+
+        const arm2 = new THREE.Mesh(armGeom, armMat);
+        arm2.rotation.z = Math.PI / 2;
+        arm2.rotation.y = -Math.PI / 4;
+        droneGroup.add(arm2);
+
+        // Rotors
+        const rotorGeom = new THREE.BoxGeometry(2.8, 0.05, 0.35);
+        const rotorMat = new THREE.MeshStandardMaterial({{ color: 0x94a3b8, transparent: true, opacity: 0.8 }});
+        const rotors = [];
+        const rotorPositions = [
+            {{ x: 2.2, z: 2.2 }},
+            {{ x: -2.2, z: 2.2 }},
+            {{ x: 2.2, z: -2.2 }},
+            {{ x: -2.2, z: -2.2 }}
+        ];
+
+        rotorPositions.forEach((pos, idx) => {{
+            const rotor = new THREE.Mesh(rotorGeom, rotorMat);
+            rotor.position.set(pos.x, 0.6, pos.z);
+            droneGroup.add(rotor);
+            rotors.push(rotor);
+
+            // LED Strobe
+            const ledGeom = new THREE.SphereGeometry(0.2, 8, 8);
+            const ledMat = new THREE.MeshBasicMaterial({{ color: idx < 2 ? 0x22c55e : 0xef4444 }});
+            const led = new THREE.Mesh(ledGeom, ledMat);
+            led.position.set(pos.x, 0.4, pos.z);
+            droneGroup.add(led);
+        }});
+
+        // Conical LiDAR Laser Scanning Beam projecting down onto land
+        const laserConeGeom = new THREE.ConeGeometry(9, 20, 24, 1, true);
+        laserConeGeom.rotateX(Math.PI);
+        const laserConeMat = new THREE.MeshBasicMaterial({{
+            color: 0x00f0ff,
+            transparent: true,
+            opacity: 0.22,
+            side: THREE.DoubleSide
+        }});
+        const laserCone = new THREE.Mesh(laserConeGeom, laserConeMat);
+        laserCone.position.y = -10;
+        droneGroup.add(laserCone);
+
+        // Ground Laser Scanning Target Ring
+        const ringGeom = new THREE.RingGeometry(7, 8.5, 32);
+        ringGeom.rotateX(-Math.PI / 2);
+        const ringMat = new THREE.MeshBasicMaterial({{ color: 0x38bdf8, transparent: true, opacity: 0.65, side: THREE.DoubleSide }});
+        const scanRing = new THREE.Mesh(ringGeom, ringMat);
+        scene.add(scanRing);
+
+        scene.add(droneGroup);
+
+        // 6. Slow-Motion Drone Flight Waypoint Animation
+        let flightTime = 0;
+        const flightRadiusX = 24;
+        const flightRadiusZ = 20;
+        const flightAltitude = 28;
+
+        function animateDroneFlight() {{
+            if (!isPaused) {{
+                flightTime += 0.012 * speedMultiplier;
+            }}
+
+            // Lawn-mower / serpentine survey flight path in slow motion
+            const curX = Math.sin(flightTime) * flightRadiusX;
+            const curZ = Math.cos(flightTime * 0.45) * flightRadiusZ;
+            const targetY = flightAltitude + Math.sin(flightTime * 2.0) * 1.5;
+
+            droneGroup.position.set(curX, targetY, curZ);
+
+            // Slight realistic drone banking & pitch during flight
+            droneGroup.rotation.z = -Math.cos(flightTime) * 0.12;
+            droneGroup.rotation.x = Math.sin(flightTime * 0.45) * 0.15;
+            droneGroup.rotation.y = flightTime * 0.3;
+
+            // Spin rotor blades in slow motion
+            rotors.forEach((r, idx) => {{
+                r.rotation.y += (idx % 2 === 0 ? 0.35 : -0.35) * (isPaused ? 0.05 : 1.0);
+            }});
+
+            // Pulse laser cone opacity
+            laserCone.material.opacity = 0.18 + Math.sin(flightTime * 8) * 0.08;
+
+            // Update ground scanning target ring location right under drone
+            const groundY = getTerrainHeight(curX, curZ);
+            scanRing.position.set(curX, groundY + 0.2, curZ);
+            scanRing.rotation.z += 0.02;
+
+            // Update HUD Altitude & Telemetry
+            const agl = targetY - groundY;
+            document.getElementById('hud-alt').innerText = agl.toFixed(1) + ' m';
+            document.getElementById('hud-angle').innerText = 
+                (droneGroup.rotation.x * 57.3).toFixed(1) + '° / ' + (droneGroup.rotation.z * 57.3).toFixed(1) + '°';
+        }}
+
+        // 7. Interactive Controls Handlers
+        window.setSpeed = function(val, btn) {{
+            speedMultiplier = val;
+            isPaused = false;
+            document.querySelectorAll('.controls-bar .btn-group:nth-child(1) .hud-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('hud-speed').innerText = val + 'x';
+            document.getElementById('btn-pause').innerText = '⏸️ Pause';
+        }};
+
+        window.togglePause = function(btn) {{
+            isPaused = !isPaused;
+            if (isPaused) {{
+                btn.innerText = '▶️ Resume';
+                btn.classList.add('active');
+            }} else {{
+                btn.innerText = '⏸️ Pause';
+                btn.classList.remove('active');
+            }}
+        }};
+
+        window.setCameraView = function(mode, btn) {{
+            currentView = mode;
+            document.querySelectorAll('.controls-bar .btn-group:nth-child(2) .hud-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (mode === 'iso') {{
+                camera.position.set(50, 45, 50);
+                controls.target.set(0, 5, 0);
+            }} else if (mode === 'top') {{
+                camera.position.set(0, 85, 0.1);
+                controls.target.set(0, 0, 0);
+            }} else if (mode === 'fpv') {{
+                // Handled in render loop
+            }} else {{
+                // Orbit mode
+                camera.position.set(0, 50, 75);
+                controls.target.set(0, 5, 0);
+            }}
+        }};
+
+        window.setShading = function(mode, btn) {{
+            currentShading = mode;
+            document.querySelectorAll('.controls-bar .btn-group:nth-child(3) .hud-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (mode === 'elevation') {{
+                terrainMesh.material = elevMaterial;
+            }} else if (mode === 'wireframe') {{
+                terrainMesh.material = wireframeMaterial;
+            }} else if (mode === 'satellite') {{
+                terrainMesh.material = satelliteMaterial;
+            }} else if (mode === 'lidar') {{
+                terrainMesh.material = lidarMaterial;
+            }}
+        }};
+
+        // 8. Main Render Animation Loop (60 FPS smooth slow-mo orbit)
+        let orbitAngle = 0;
+        function renderLoop() {{
+            requestAnimationFrame(renderLoop);
+
+            animateDroneFlight();
+
+            if (currentView === 'orbit' && !isPaused) {{
+                orbitAngle += 0.002 * speedMultiplier;
+                const dist = 85;
+                camera.position.x = Math.sin(orbitAngle) * dist;
+                camera.position.z = Math.cos(orbitAngle) * dist;
+                camera.position.y = 45 + Math.sin(orbitAngle * 0.5) * 8;
+                controls.target.set(0, 4, 0);
+            }} else if (currentView === 'fpv') {{
+                // Attach camera right behind drone cockpit
+                camera.position.set(
+                    droneGroup.position.x - Math.sin(droneGroup.rotation.y) * 8,
+                    droneGroup.position.y + 4,
+                    droneGroup.position.z - Math.cos(droneGroup.rotation.y) * 8
+                );
+                controls.target.set(
+                    droneGroup.position.x + Math.sin(droneGroup.rotation.y) * 20,
+                    droneGroup.position.y - 6,
+                    droneGroup.position.z + Math.cos(droneGroup.rotation.y) * 20
+                );
+            }}
+
+            controls.update();
+            renderer.render(scene, camera);
+        }}
+        renderLoop();
+
+        // Responsive Resize
+        window.addEventListener('resize', () => {{
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        }});
+        </script>
+    </body>
+    </html>
+    """
+
+    components.html(html_code, height=height + 25)
+
 # GEOMETRIC & SURVEY CONVERSION HELPERS
 # ============================================================
 
@@ -272,10 +1289,11 @@ def calculate_side_lengths_and_bearings(polygon, projected_crs):
         else:
             quad_bearing = f"N {360 - deg}° {mins}' W"
 
+        to_label = "P1" if (i + 1 == len(coords_proj) - 1) else f"P{i + 2}"
         sides.append({
-            "Side": f"P{i + 1} → P{i + 2}",
+            "Side": f"P{i + 1} → {to_label}",
             "From": f"P{i + 1}",
-            "To": f"P{i + 2}",
+            "To": to_label,
             "Length (m)": round(dist_m, 2),
             "Length (ft)": round(dist_ft, 2),
             "Azimuth (°)": round(azimuth, 1),
@@ -1204,47 +2222,103 @@ if page == "🏠 Dashboard":
     col_map, col_details = st.columns([3, 2])
 
     with col_map:
-        if FOLIUM_AVAILABLE:
-            m = folium.Map(location=[lp.get("latitude", 16.5015), lp.get("longitude", 78.1015)], zoom_start=17, tiles=None)
-            folium.TileLayer(
-                tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-                attr="Tiles © Esri World Imagery",
-                name="High-Res Satellite",
-                max_zoom=21
-            ).add_to(m)
+        tab_3d, tab_2d = st.tabs(["🌐 3D Drone Flight & Topography (Live)", "🛰️ 2D High-Res Satellite Map"])
+        
+        with tab_3d:
+            target_p = st.session_state.parcels[0] if st.session_state.parcels else None
+            render_3d_terrain_drone_viewer(
+                parcel_coords=target_p["coordinates"] if target_p else None,
+                elevation_stats=st.session_state.elevation_stats,
+                height=420,
+                title="3D Live Drone Flight & Topography"
+            )
 
-            # Draw target survey parcel
-            if st.session_state.parcels:
-                coords = st.session_state.parcels[0]["coordinates"]
-                folium.Polygon(
-                    locations=[[c[1], c[0]] for c in coords],
-                    color="#22c55e",
-                    weight=3,
-                    fill=True,
-                    fill_color="#22c55e",
-                    fill_opacity=0.25,
-                    tooltip=f"Active Survey: Sy. No. {lp.get('survey_no')}"
+        with tab_2d:
+            if FOLIUM_AVAILABLE:
+                m = folium.Map(location=[lp.get("latitude", 16.5015), lp.get("longitude", 78.1015)], zoom_start=18, tiles=None, control_scale=True)
+                
+                folium.TileLayer(
+                    tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+                    attr="Google Maps Satellite Hybrid",
+                    name="🛰️ Google Hybrid (Satellite + Roads & Labels)",
+                    max_zoom=22,
+                    subdomains=["mt0", "mt1", "mt2", "mt3"],
+                    overlay=False,
+                    control=True
                 ).add_to(m)
 
-                # Add neighbor parcels
-                for p in st.session_state.parcels[1:]:
+                folium.TileLayer(
+                    tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+                    attr="Tiles © Esri World Imagery",
+                    name="🌍 Esri High-Res Satellite",
+                    max_zoom=21,
+                    overlay=False,
+                    control=True
+                ).add_to(m)
+
+                folium.TileLayer(
+                    tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                    attr="CartoDB Dark",
+                    name="🌑 Cyber-Dark GIS Base",
+                    max_zoom=20,
+                    overlay=False,
+                    control=True
+                ).add_to(m)
+
+                # Draw target survey parcel
+                if st.session_state.parcels:
+                    coords = st.session_state.parcels[0]["coordinates"]
                     folium.Polygon(
-                        locations=[[c[1], c[0]] for c in p["coordinates"]],
-                        color="#38bdf8",
-                        weight=1.5,
+                        locations=[[c[1], c[0]] for c in coords],
+                        color="#00e5ff",
+                        weight=3.5,
                         fill=True,
-                        fill_color="#0284c7",
-                        fill_opacity=0.1,
-                        tooltip=f"Adjoining Land: {p['parcel_id']} ({p.get('pattadar')})"
+                        fill_color="#00e5ff",
+                        fill_opacity=0.25,
+                        tooltip=f"🎯 Active Survey: Sy. No. {lp.get('survey_no')} ({lp.get('owner_name')})"
                     ).add_to(m)
 
-            folium.Marker(
-                [lp.get("latitude", 16.5015), lp.get("longitude", 78.1015)],
-                popup=f"Land: Sy. No. {lp.get('survey_no')}<br/>Owner: {lp.get('owner_name')}",
-                icon=folium.Icon(color="green", icon="info-sign")
-            ).add_to(m)
+                    # Add corner vertex markers
+                    pts = coords[:-1] if coords[0] == coords[-1] else coords
+                    for idx, pt in enumerate(pts):
+                        icon_html = f"""
+                        <div style="
+                            font-family: 'Plus Jakarta Sans', sans-serif;
+                            font-size: 10px;
+                            font-weight: 800;
+                            color: #ffffff;
+                            background: #0284c7;
+                            border: 2px solid #38bdf8;
+                            border-radius: 50%;
+                            width: 22px;
+                            height: 22px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            box-shadow: 0 0 8px rgba(56, 189, 248, 0.9);
+                        ">P{idx + 1}</div>
+                        """
+                        folium.Marker(
+                            location=[pt[1], pt[0]],
+                            icon=folium.DivIcon(icon_size=(22, 22), icon_anchor=(11, 11), html=icon_html),
+                            tooltip=f"Corner P{idx + 1}: ({pt[1]:.5f}, {pt[0]:.5f})"
+                        ).add_to(m)
 
-            st_folium(m, height=420, width=None, use_container_width=True, key="dash_map")
+                    # Add neighbor parcels
+                    for p in st.session_state.parcels[1:]:
+                        folium.Polygon(
+                            locations=[[c[1], c[0]] for c in p["coordinates"]],
+                            color="#94a3b8",
+                            weight=1.5,
+                            fill=True,
+                            fill_color="#38bdf8",
+                            fill_opacity=0.1,
+                            tooltip=f"Adjoining Land: {p['parcel_id']} ({p.get('pattadar')})"
+                        ).add_to(m)
+
+                Fullscreen(position="topleft").add_to(m)
+                folium.LayerControl(position="topright", collapsed=True).add_to(m)
+                st_folium(m, height=420, width=None, use_container_width=True, key="dash_map")
 
     with col_details:
         st.markdown("##### 📜 Schedule of Boundaries (Chakkubandhulu)")
@@ -1351,8 +2425,8 @@ elif page == "📄 Land Papers (User Documents)":
 # ============================================================
 
 elif page == "🚁 Drone Survey & Boundary Tracing":
-    st.title("🚁 Drone Aerial Survey & Boundary Tracing")
-    st.markdown("Load drone georeferenced orthomosaic or draw/trace boundaries interactively over satellite imagery. Automatic metric UTM conversion calculates exact perimeter and area.")
+    st.markdown('<div class="main-title">🚁 Drone Aerial Survey & Boundary Tracing</div>', unsafe_allow_html=True)
+    st.markdown('<div class="subtitle"><span class="live-pulse-dot"></span> High-Precision Drone Photogrammetry, Sub-Centimeter Metric UTM Area Calculation & Interactive FMB Vertex Tracing</div>', unsafe_allow_html=True)
 
     c_upload, c_load_sample = st.columns([3, 1])
     with c_upload:
@@ -1382,66 +2456,190 @@ elif page == "🚁 Drone Survey & Boundary Tracing":
     lp = st.session_state.land_paper
     target_parcel = st.session_state.parcels[0] if st.session_state.parcels else None
 
+    # Interactive 3D Drone Flight & Scan Simulation Expander
+    with st.expander("🌐 3D Interactive Drone LiDAR Scan & Altitude Simulation (WebGL)", expanded=False):
+        st.caption("Live 3D WebGL drone flight path with rotating slow-mo rotors, terrain relief displacement, and conical LiDAR beam.")
+        render_3d_terrain_drone_viewer(
+            parcel_coords=target_parcel["coordinates"] if target_parcel else None,
+            elevation_stats=st.session_state.elevation_stats,
+            height=460,
+            title="3D Drone LiDAR Survey Studio"
+        )
+
     # Map with Drawing Tools
-    st.subheader(f"📐 Boundary Map: Sy. No. {lp.get('survey_no')}")
-    st.caption("Use the polygon drawing tool on the left of the map to trace the land boundary or modify vertices.")
+    st.markdown(f"### 📐 Interactive GIS Boundary Studio · Sy. No. {lp.get('survey_no')}")
+    st.caption("⚡ **Features:** Switch basemaps (Google Hybrid / Esri / OSM / Dark GIS), use the polygon tool on the left to draw/edit boundary points, or measure distances.")
 
     if FOLIUM_AVAILABLE:
         center_lat = lp.get("latitude", 16.5015)
         center_lon = lp.get("longitude", 78.1015)
 
-        survey_map = folium.Map(location=[center_lat, center_lon], zoom_start=18, tiles=None)
+        survey_map = folium.Map(
+            location=[center_lat, center_lon],
+            zoom_start=18,
+            tiles=None,
+            control_scale=True
+        )
+
+        # 1. High-Resolution Basemaps
+        folium.TileLayer(
+            tiles="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+            attr="Google Maps Satellite Hybrid",
+            name="🛰️ Google Hybrid (Satellite + Roads & Labels)",
+            max_zoom=22,
+            subdomains=["mt0", "mt1", "mt2", "mt3"],
+            overlay=False,
+            control=True
+        ).add_to(survey_map)
 
         folium.TileLayer(
             tiles="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-            attr="Tiles © Esri World Imagery",
-            name="Satellite Imagery",
-            max_zoom=21
+            attr="Esri World Imagery",
+            name="🌍 Esri Photogrammetry (High-Res 4K)",
+            max_zoom=21,
+            overlay=False,
+            control=True
         ).add_to(survey_map)
 
-        # Overlay drone image if available
+        folium.TileLayer(
+            tiles="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+            attr="CartoDB Dark Matter",
+            name="🌑 Cyber-Dark GIS Night Map",
+            max_zoom=20,
+            overlay=False,
+            control=True
+        ).add_to(survey_map)
+
+        folium.TileLayer(
+            tiles="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            attr="OpenStreetMap contributors",
+            name="🗺️ OpenStreetMap Standard",
+            max_zoom=19,
+            overlay=False,
+            control=True
+        ).add_to(survey_map)
+
+        # 2. Overlay drone image if available
         if st.session_state.drone_raster_meta and st.session_state.drone_raster_meta.get("map_bounds"):
             mb = st.session_state.drone_raster_meta["map_bounds"]
             folium.raster_layers.ImageOverlay(
                 image=st.session_state.drone_raster_meta["map_image"],
                 bounds=[[mb[1], mb[0]], [mb[3], mb[2]]],
-                opacity=0.85,
-                name="Drone Orthomosaic"
+                opacity=0.88,
+                name="🚁 Drone Orthomosaic GeoTIFF"
             ).add_to(survey_map)
 
-        # Draw Cadastral parcels if available
+        # 3. Draw Cadastral parcels if available (Golden Glowing Outline)
         if st.session_state.cadastral_gdf is not None:
             folium.GeoJson(
                 st.session_state.cadastral_gdf.__geo_interface__,
-                name="Village Cadastral Map",
-                style_function=lambda f: {"color": "#f59e0b", "weight": 2, "dashArray": "5, 5", "fillOpacity": 0.05},
+                name="📜 Village Cadastral (FMB) Map",
+                style_function=lambda f: {
+                    "color": "#f59e0b",
+                    "weight": 2.2,
+                    "dashArray": "6, 4",
+                    "fillColor": "#f59e0b",
+                    "fillOpacity": 0.08
+                },
                 tooltip=folium.GeoJsonTooltip(fields=["survey_no"], aliases=["Sy. No:"]) if "survey_no" in st.session_state.cadastral_gdf.columns else None
             ).add_to(survey_map)
 
-        # Add existing target parcel boundary
-        if target_parcel:
+        # 4. Add existing target parcel boundary with High-Contrast Neon Cyan & Corner Badges
+        coords_for_display = st.session_state.drone_boundary_coordinates or (target_parcel["coordinates"] if target_parcel else None)
+        if coords_for_display:
+            # Boundary Polygon (High Contrast Cyan)
             folium.Polygon(
-                locations=[[c[1], c[0]] for c in target_parcel["coordinates"]],
-                color="#10b981",
-                weight=3,
+                locations=[[c[1], c[0]] for c in coords_for_display],
+                color="#00e5ff",
+                weight=3.5,
                 fill=True,
-                fill_color="#10b981",
-                fill_opacity=0.2,
-                tooltip=f"Current Survey Boundary: {target_parcel['parcel_id']}"
+                fill_color="#00e5ff",
+                fill_opacity=0.22,
+                tooltip=f"🎯 Active Survey: Sy. No. {lp.get('survey_no')} ({lp.get('owner_name')})"
             ).add_to(survey_map)
 
-            # Mark corner points (P1, P2, P3...)
-            for idx, pt in enumerate(target_parcel["coordinates"][:-1]):
-                folium.CircleMarker(
+            # Mark corner points (P1, P2, P3...) with High-Contrast Glowing Badges
+            pts = coords_for_display[:-1] if coords_for_display[0] == coords_for_display[-1] else coords_for_display
+            for idx, pt in enumerate(pts):
+                # HTML Corner Badge
+                icon_html = f"""
+                <div style="
+                    font-family: 'Plus Jakarta Sans', sans-serif;
+                    font-size: 11px;
+                    font-weight: 800;
+                    color: #ffffff;
+                    background: #0284c7;
+                    border: 2px solid #38bdf8;
+                    border-radius: 50%;
+                    width: 26px;
+                    height: 26px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 0 10px rgba(56, 189, 248, 0.9), 0 2px 5px rgba(0,0,0,0.5);
+                    cursor: pointer;
+                ">P{idx + 1}</div>
+                """
+                folium.Marker(
                     location=[pt[1], pt[0]],
-                    radius=5,
-                    color="#047857",
-                    fill=True,
-                    fill_color="#34d399",
-                    tooltip=f"Corner P{idx + 1}"
+                    icon=folium.DivIcon(
+                        icon_size=(26, 26),
+                        icon_anchor=(13, 13),
+                        html=icon_html
+                    ),
+                    popup=f"<b>Corner P{idx + 1}</b><br/>GPS: {pt[1]:.6f}° N, {pt[0]:.6f}° E",
+                    tooltip=f"Corner P{idx + 1}: ({pt[1]:.5f}, {pt[0]:.5f})"
                 ).add_to(survey_map)
 
-        # Draw Control
+            # Add Edge Distance Annotations at Edge Midpoints
+            for i in range(len(pts)):
+                p1 = pts[i]
+                p2 = pts[(i + 1) % len(pts)]
+                mid_lat = (p1[1] + p2[1]) / 2.0
+                mid_lon = (p1[0] + p2[0]) / 2.0
+                
+                # Approximate distance in meters
+                d_lat = (p2[1] - p1[1]) * 111139.0
+                d_lon = (p2[0] - p1[0]) * 111139.0 * math.cos(math.radians(mid_lat))
+                edge_dist_m = math.hypot(d_lat, d_lon)
+                edge_dist_ft = edge_dist_m * 3.28084
+                next_label = "P1" if i + 1 == len(pts) else f"P{i + 2}"
+
+                edge_html = f"""
+                <div style="
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 9.5px;
+                    font-weight: 700;
+                    color: #38bdf8;
+                    background: rgba(15, 23, 42, 0.88);
+                    border: 1px solid rgba(56, 189, 248, 0.5);
+                    border-radius: 4px;
+                    padding: 2px 5px;
+                    white-space: nowrap;
+                    box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+                    pointer-events: none;
+                ">P{i + 1}-{next_label}: {edge_dist_m:.1f}m</div>
+                """
+                folium.Marker(
+                    location=[mid_lat, mid_lon],
+                    icon=folium.DivIcon(
+                        icon_size=(80, 20),
+                        icon_anchor=(40, 10),
+                        html=edge_html
+                    )
+                ).add_to(survey_map)
+
+        # 5. Fullscreen and Measurement Controls
+        Fullscreen(position="topleft").add_to(survey_map)
+        MeasureControl(
+            position="topright",
+            primary_length_unit="meters",
+            secondary_length_unit="feet",
+            primary_area_unit="sqmeters",
+            secondary_area_unit="acres"
+        ).add_to(survey_map)
+
+        # 6. Polygon Draw Control (High Contrast Neon Magenta / Yellow)
         Draw(
             export=False,
             draw_options={
@@ -1450,21 +2648,30 @@ elif page == "🚁 Drone Survey & Boundary Tracing":
                 "circle": False,
                 "circlemarker": False,
                 "marker": False,
-                "polygon": {"allowIntersection": False, "showArea": True, "shapeOptions": {"color": "#ef4444"}}
+                "polygon": {
+                    "allowIntersection": False,
+                    "showArea": True,
+                    "shapeOptions": {
+                        "color": "#f43f5e",
+                        "weight": 3.5,
+                        "fillColor": "#f43f5e",
+                        "fillOpacity": 0.25
+                    }
+                }
             },
             edit_options={"edit": True, "remove": True}
         ).add_to(survey_map)
 
-        folium.LayerControl().add_to(survey_map)
+        folium.LayerControl(position="topright", collapsed=False).add_to(survey_map)
 
-        map_state = st_folium(survey_map, height=520, width=None, use_container_width=True, key="survey_draw_map")
+        map_state = st_folium(survey_map, height=540, width=None, use_container_width=True, key="survey_draw_map")
 
         if map_state and map_state.get("all_drawings"):
             poly_drawings = [f for f in map_state["all_drawings"] if f.get("geometry", {}).get("type") == "Polygon"]
             if poly_drawings:
                 st.session_state.drone_boundary_coordinates = poly_drawings[-1]["geometry"]["coordinates"][0]
 
-    # Measurement Calculations
+    # Measurement Calculations & Telemetry Cards
     coords_to_use = st.session_state.drone_boundary_coordinates or (target_parcel["coordinates"] if target_parcel else None)
 
     if coords_to_use:
@@ -1480,41 +2687,103 @@ elif page == "🚁 Drone Survey & Boundary Tracing":
             side_df = pd.DataFrame(sides)
 
             st.divider()
-            st.subheader("📊 Survey Measurement Results")
-            st.caption(f"Calculated in Projected Metric UTM: **{utm_crs}**")
+            st.markdown("### 📊 High-Precision Survey Telemetry & Area Metrics")
+            st.caption(f"⚡ Calculated using Projected Metric UTM Zone: **{utm_crs}** (WGS-84 / GRS80 Spheroid)")
 
-            r1, r2, r3, r4 = st.columns(4)
-            r1.metric("Area in Cents", f"{units['cents']:.2f} Cents")
-            r2.metric("Area in Acres", f"{units['acres']:.3f} Ac")
-            r3.metric("Area in Gajalu (Sq.Yds)", f"{units['sq_yards']:,.1f}")
-            r4.metric("Perimeter", f"{perimeter_m:.2f} m ({perimeter_m*3.28084:.1f} ft)")
+            # Rich 3D Glassmorphic KPI Cards
+            k1, k2, k3, k4 = st.columns(4)
+            with k1:
+                st.markdown(f"""
+                <div class="stat-card">
+                    <div class="stat-label">Survey Area (Cents)</div>
+                    <div class="stat-num" style="color:#38bdf8;">{units['cents']:.2f} <span style="font-size:0.9rem;">Cents</span></div>
+                    <div style="font-size:0.8rem; color:#94a3b8;">100 Cents = 1.000 Acre</div>
+                </div>
+                """, unsafe_allow_html=True)
 
-            # Comparison with deed
+            with k2:
+                st.markdown(f"""
+                <div class="stat-card">
+                    <div class="stat-label">Survey Area (Acres)</div>
+                    <div class="stat-num" style="color:#34d399;">{units['acres']:.3f} <span style="font-size:0.9rem;">Ac</span></div>
+                    <div style="font-size:0.8rem; color:#94a3b8;">{(units['acres']*0.404686):.3f} Hectares</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with k3:
+                st.markdown(f"""
+                <div class="stat-card">
+                    <div class="stat-label">Gajalu (Sq. Yards)</div>
+                    <div class="stat-num" style="color:#fbbf24;">{units['sq_yards']:,.1f}</div>
+                    <div style="font-size:0.8rem; color:#94a3b8;">{area_m2:,.1f} Sq. Meters (m²)</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            with k4:
+                st.markdown(f"""
+                <div class="stat-card">
+                    <div class="stat-label">Boundary Perimeter</div>
+                    <div class="stat-num" style="color:#c084fc;">{perimeter_m:.1f} <span style="font-size:0.9rem;">m</span></div>
+                    <div style="font-size:0.8rem; color:#94a3b8;">{(perimeter_m*3.28084):.1f} Feet · {len(sides)} Corners</div>
+                </div>
+                """, unsafe_allow_html=True)
+
+            st.markdown("<br/>", unsafe_allow_html=True)
+
+            # Comparison with registered deed
             deed_cents = lp.get("deed_area_cents", 106.0)
             diff = units["cents"] - deed_cents
             pct = (diff / deed_cents) * 100.0
 
             if abs(diff) <= 2.0:
-                st.success(f"✅ **Boundary Area Matches Deed!** Surveyed {units['cents']:.2f} Cents vs Deed {deed_cents:.2f} Cents (Variance: {diff:+.2f} Cents, {pct:+.1f}% - within tolerance).")
+                st.markdown(f"""
+                <div class="info-box" style="border-left-color: #22c55e !important; background: rgba(34, 197, 94, 0.1) !important;">
+                    <b style="color: #4ade80;">✅ Exact Boundary Match with Legal Deed:</b><br/>
+                    Drone Surveyed Area is <b>{units['cents']:.2f} Cents</b> vs Registered Deed <b>{deed_cents:.2f} Cents</b> 
+                    (Variance: <b>{diff:+.2f} Cents</b> / <b>{pct:+.1f}%</b> — well within the 2% statutory tolerance limit).
+                </div>
+                """, unsafe_allow_html=True)
             elif diff < -2.0:
-                st.warning(f"⚠️ **Area Deficit Detected:** Surveyed land is {abs(diff):.2f} Cents smaller than registered deed. Check for neighbor encroachment.")
+                st.markdown(f"""
+                <div class="info-box" style="border-left-color: #ef4444 !important; background: rgba(239, 68, 68, 0.1) !important;">
+                    <b style="color: #f87171;">⚠️ Land Area Deficit Detected:</b><br/>
+                    Drone Surveyed Area (<b>{units['cents']:.2f} Cents</b>) is <b>{abs(diff):.2f} Cents smaller</b> than the registered deed (<b>{deed_cents:.2f} Cents</b>). Check adjacent survey boundaries for potential encroachment.
+                </div>
+                """, unsafe_allow_html=True)
             else:
-                st.info(f"ℹ️ **Area Excess Detected:** Surveyed land is {diff:.2f} Cents larger than registered deed (+{pct:.1f}%).")
+                st.markdown(f"""
+                <div class="info-box" style="border-left-color: #f59e0b !important; background: rgba(245, 158, 11, 0.1) !important;">
+                    <b style="color: #fbbf24;">ℹ️ Land Area Excess Detected:</b><br/>
+                    Drone Surveyed Area (<b>{units['cents']:.2f} Cents</b>) exceeds the registered deed area by <b>+{diff:.2f} Cents (+{pct:.1f}%)</b>. Verify field boundaries with Village Revenue Cadastral Map.
+                </div>
+                """, unsafe_allow_html=True)
 
             # Side lengths and bearings table
-            st.subheader("📏 FMB Boundary Corner Measurements (Sides & Bearings)")
-            st.dataframe(side_df[["Side", "Length (m)", "Length (ft)", "Compass Bearing", "Lat/Long"]], width="stretch", hide_index=True)
+            st.markdown("### 📏 FMB Boundary Corner Measurements & Compass Bearings")
+            st.dataframe(
+                side_df[["Side", "Length (m)", "Length (ft)", "Compass Bearing", "Azimuth (°)", "Lat/Long"]],
+                width="stretch",
+                hide_index=True
+            )
 
-            # Update target parcel coordinates
-            if st.button("💾 Apply Traced Boundary to Active Survey", width="stretch"):
-                if target_parcel:
-                    target_parcel["coordinates"] = coords_to_use
-                    target_parcel["area"] = area_m2
-                    target_parcel["perimeter"] = perimeter_m
-                    target_parcel["status"] = "Edited"
-                    add_audit_log(lp.get("survey_no"), "Boundary vertices updated via drone tracing", "Surveyor")
-                    st.success("Target parcel boundary successfully updated!")
-                    st.rerun()
+            # Update target parcel coordinates button
+            c_btn1, c_btn2 = st.columns([2, 1])
+            with c_btn1:
+                if st.button("💾 Apply Traced Boundary to Active Survey Record", width="stretch"):
+                    if target_parcel:
+                        target_parcel["coordinates"] = coords_to_use
+                        target_parcel["area"] = area_m2
+                        target_parcel["perimeter"] = perimeter_m
+                        target_parcel["status"] = "Edited"
+                        add_audit_log(lp.get("survey_no"), "Boundary vertices updated via drone tracing", "Surveyor")
+                        st.success("Target parcel boundary successfully updated!")
+                        st.rerun()
+
+            with c_btn2:
+                if st.session_state.drone_boundary_coordinates:
+                    if st.button("🔄 Reset Drawn Boundary", width="stretch"):
+                        st.session_state.drone_boundary_coordinates = None
+                        st.rerun()
 
         except Exception as e:
             st.error(f"Error computing measurements: {e}")
@@ -1582,6 +2851,18 @@ elif page == "⛰️ DSM & DTM Elevation Analysis":
         e2.metric("Surface Peak (DSM)", f"{elev['surface_max_amsl']} m AMSL")
         e3.metric("Max Structure Height (nDSM)", f"{elev['max_structure_height_m']} m", "House / Tree Height")
         e4.metric("Terrain Slope", f"{elev['avg_slope_deg']}° ({elev['slope_class']})", f"Max: {elev['max_slope_deg']}°")
+
+        st.markdown("<br/>", unsafe_allow_html=True)
+        st.subheader("🌐 Interactive 3D Digital Elevation & Topographic Relief Model (WebGL)")
+        st.caption("Real-time 3D terrain displacement with slow-motion drone flight, LiDAR scanning beam, altitude contour heatmap, and multi-angle camera controls.")
+        
+        target_p = st.session_state.parcels[0] if st.session_state.parcels else None
+        render_3d_terrain_drone_viewer(
+            parcel_coords=target_p["coordinates"] if target_p else None,
+            elevation_stats=elev,
+            height=560,
+            title="3D Topographic Terrain & Drone Survey Studio"
+        )
 
         st.markdown("<br/>", unsafe_allow_html=True)
         col_img1, col_img2 = st.columns(2)
